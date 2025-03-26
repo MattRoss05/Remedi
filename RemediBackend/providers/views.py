@@ -4,4 +4,4 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required
 def provider_dashboard(repsonse):
-    return HttpResponse("Welcome to the provider dashboard!")
+    return render(repsonse, 'providers/providerdashboard.html')

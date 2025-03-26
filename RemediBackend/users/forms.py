@@ -5,7 +5,6 @@ from .models import CustomUser
 
 class ProviderRegisterForm(UserCreationForm):
     email = forms.EmailField()
-    user_type = forms.ChoiceField(choices=CustomUser.USER_TYPE)
     class Meta:
         model = CustomUser
         fields = [
@@ -13,5 +12,4 @@ class ProviderRegisterForm(UserCreationForm):
             "email",
             "password1",
             "password2",
-            "user_type",
         ]

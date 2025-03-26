@@ -26,29 +26,17 @@
         .button:hover {
             background-color: #3e236e;
         }
-        a:not(.button):link{
-            color: aqua;
-            background-color: transparent;
-            text-decoration: none;
-        }
-        a:not(.button):visited {
-            color: aqua;
-        }
     </style>
 </head>
 <body>
-    <h1>Login to Remedi!</h1>
+    <h1>Welcome to the Provider Dashboard!!</h1>
+    <p>Select an option below:</p>
+
     <div id = "content", name = "content">
-        <form method = "POST" class = "form-group">
-            {% load crispy_forms_tags %}
+        <form method = "POST" action = "{% url 'logout' %}">
             {% csrf_token %}
-            {{ form|crispy }}
-            <button type = "submit" class = "button">Login</button>
+            <button type = "submit" class = "button">Logout</button>
         </form>
-        <p>Are you a provider and don't have an account? Create one <a href="{% url 'register' %}">here.</a> </p>
-    </div>
-    <div class="button-container">
-        <a href="{% url 'welcome' %}" class="button">back</a>
     </div>
 </body>
 </html>
