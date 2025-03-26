@@ -1,13 +1,20 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from .forms import RegisterForm
 
 # Create your views here.
 
-#def login_page(request):
-    #return HttpResponse("This is the login page for doctors and patients!")
+def register_page(response):
+    if response.method == "POST":
+        form = RegisterForm(response.POST)
+        if form.is_valid():
+            form.save()
+        return redirect("/home")
+    else:
+        form = RegisterForm()
+    return render(response, 'users/register.html', {"form": form})
 
-#def register_doctor(request):
-    #return HttpResponse("Are you a new Doctor? Register your patients with Remedi!")
+def login_page(request):
+    return render(request, 'users/login.html')
 
 
 
