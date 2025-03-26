@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
    path('register/', views.register_page, name = "register"),
-   path('login/', views.login_page, name = "login")
+   path('redirect/', views.role_based_redirect, name = 'role_based_redirect'),
 ]

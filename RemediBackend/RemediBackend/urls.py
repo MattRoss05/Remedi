@@ -20,6 +20,9 @@ from users import views as userviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', include('home.urls')),
+    path('', include('home.urls')),
     path('user/', include('users.urls')),
+    path('', include('django.contrib.auth.urls')),
+    path('patients/', include('patients.urls')),
+    path('providers/', include('providers.urls')),
 ]
