@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'home',
     
 ]
+#overide the defauk user model and make it our CustomUser that includes the
+#user_type field
 AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
@@ -127,9 +129,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+#allow crispyforms to be accessed and used
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+#after login, redirect the user to user/redirect
 LOGIN_REDIRECT_URL = "/user/redirect/"
 #LOGOUT_REDIRECT_URL = "/"
 
