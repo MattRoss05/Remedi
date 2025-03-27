@@ -8,5 +8,5 @@ class UserUrlTest(TestCase):
 
     def testRedirect(self):
         response = self.client.get(reverse('role_based_redirect'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
