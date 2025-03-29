@@ -7,3 +7,6 @@ def provider_dashboard(request):
         return render(request, 'providers/providerdashboard.html')
     else:
         return redirect('welcome')
+    
+def add_patient(request):
+    return render(request, 'providers/addpatient.html')
