@@ -39,3 +39,11 @@ class ProviderRegisterForm(UserCreationForm):
         
         #if the email is valid thus far, return it
         return email
+    
+
+    def save(self, commit = True):
+        user = super().save(commit = False)
+        user.user_type = 'provider'
+        if commit:
+            user.save()
+        return user

@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
         ('provider', 'Provider'),
     )
 
-    #user_type field that is a choice field of max length 10 from the USER_TYPE tuple
+    #user_type field that is a choice field of maxx length 10 from the USER_TYPE tuple
     user_type = models.CharField(max_length=10, choices = USER_TYPE, default='provider')
 
     #helper methods to determine if a user is a patient or provider.
@@ -22,4 +22,3 @@ class CustomUser(AbstractUser):
     
     def is_provider(self):
         return self.user_type == 'provider'
-    
