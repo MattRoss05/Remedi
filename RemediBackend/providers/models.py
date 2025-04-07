@@ -10,14 +10,15 @@ class Provider(models.Model):
 
 
 class Patient(models.Model):
+    #maps our patient to a custom user model
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='patients')
+    #first and last name fields; this is what we use to search a patient
+    first = models.CharField()
+    last = models.CharField()
 
-    date_of_birth = models.DateField()
-    address = models.TextField()
     medications_times = models.JSONField(default=dict)
-
+    #the provider who intoduced this patient is saved here
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name='patients')
 
     def __str__(self):
         return self.user.email
