@@ -1,42 +1,52 @@
-
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 50px;
-            background-color: #333333;
-            color: #D3d3d3;
-
-        }
-        .button {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px 30px;
-            font-size: 18px;
-            color: #D3d3d3;
-            background-color: #522e92;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .button:hover {
-            background-color: #3e236e;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        padding: 50px;
+        background-color: #333333;
+        color: #d3d3d3;
+      }
+      .button {
+        display: inline-block;
+        margin: 10px;
+        padding: 15px 30px;
+        font-size: 18px;
+        color: #d3d3d3;
+        background-color: #522e92;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .button:hover {
+        background-color: #3e236e;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Welcome to the Provider Dashboard!!</h1>
     <p>Select an option below:</p>
 
-    <div id = "content", name = "content">
-        <form method = "POST" action = "{% url 'logout' %}">
-            {% csrf_token %}
-            <button type = "submit" class = "button">Logout</button>
-        </form>
+    <div class="add_patient_section">
+      <a href="{% url 'add_patient'%}">
+        <button class="button">Add Patient</button>
+      </a>
     </div>
-</body>
+
+    <div class="search_patient_section">
+      <a>
+        <button class="button">Add Patient</button>
+      </a>
+    </div>
+
+    <div id="content" , name="content">
+      <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="button">Logout</button>
+      </form>
+    </div>
+  </body>
 </html>
