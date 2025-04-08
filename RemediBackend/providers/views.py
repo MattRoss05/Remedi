@@ -22,15 +22,19 @@ def add_patient(request):
             user = userForm.save()
             #save patient but we not done yet
             patient = patientForm.save(commit=False)
+            #create the provider representing the logged in provider to attach to patient
+            provider = Provider.objects.get(user=request.user)
+            #attach provider to patient
+            patient.provider = provider
             #then we wanna map this patient to their relevant user model
             patient.user = user
             #nowwwww we save
             patient.save()
             #take me home boys
-            return redirect('providers/providerdashboard.html')
+            return redirect('provider_dashboard')
     #otherwise give the provider a blank form
     else:
         patientForm = AddPatient()
         userForm = AddPatientCustomUser()
             
-    return render(request, 'providers/addpatient.html')
+    return render(request, 'providers/addpatient.html', {'patientForm': patientForm, 'userForm': userForm})

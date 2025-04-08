@@ -44,7 +44,7 @@ class AddPatientCustomUser (UserCreationForm):
         
 
 #this class is SPECIFICALLY for mapping fields to patient model (ie first and last name)
-class AddPatient():
+class AddPatient(forms.ModelForm):
 
     #specify first and last name fields
     first = forms.CharField(required=True, max_length=30)
