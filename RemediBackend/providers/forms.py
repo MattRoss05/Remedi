@@ -90,6 +90,7 @@ class EditPatientCustomUser (forms.ModelForm):
             #if the email is valid thus far, return it
         return email
     
+    
     def save(self, commit = True):
         user = super().save(commit = False)
         user.user_type = 'patient'
@@ -97,30 +98,35 @@ class EditPatientCustomUser (forms.ModelForm):
             user.save()
         return user
         
-
+#form for the edit user view
 class EditPatientForm(forms.ModelForm):
+    #form will display first, last, and medication times
     class Meta:
-
+        #Patient is the model being edited
         model = Patient
 
         fields = [
             'first', 'last', 'medications_times'
             ]
+        #`these are texts that will be displayed next to the associated form`
         help_texts = {
             'first': 'Enter the patient\'s first name.',
             'last': 'Enter the patient\'s last name.',
             'medications_times': 'Medications and times should be entered in JSON format',
         }
-
+#form for the change password view
 class CustomPasswordChangeForm(PasswordChangeForm):
+    #old padssword is not required
     old_password = None
 
+    #make the new password field
     new_password1 = forms.CharField(
         label="New Password",
         widget=forms.PasswordInput,
         min_length=8,
         help_text="Password must be at least 8 characters long."
     )
+    #make the matchting password field
     new_password2 = forms.CharField(
         label="Confirm New Password",
         widget=forms.PasswordInput,
@@ -129,12 +135,13 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     )
 
     class Meta:
-        model = User
+        # CustomUser is the model being edited
+        model = CustomUser
         fields = [
             'new_password1', 
             'new_password2',
         ]
-
+    #override clean_new_password2 method
     def clean_new_password2(self):
         password1 = self.cleaned_data.get('new_password1')
         password2 = self.cleaned_data.get('new_password2')
@@ -143,7 +150,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
             raise ValidationError("The two password fields must match.")
         
         return password2
-
+    #override save method to include user
     def save(self, user):
         new_password = self.cleaned_data.get('new_password1')
         user.set_password(new_password)
