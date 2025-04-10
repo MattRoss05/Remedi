@@ -41,8 +41,9 @@ def add_patient(request):
         patientForm = AddPatient()
         userForm = AddPatientCustomUser()
                 
-        return render(request, 'providers/addpatient.html', {'patientForm': patientForm, 'userForm': userForm})
+    return render(request, 'providers/addpatient.html', {'patientForm': patientForm, 'userForm': userForm})
     
+
 def search_patient(request):
     if not request.user.is_authenticated or request.user.user_type == 'patient':
        return redirect('welcome')
