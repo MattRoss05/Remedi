@@ -1,8 +1,8 @@
 from django import forms
 from .models import Patient, Provider, CustomUser #accessing patient and provider models
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
-from django.forms import DateInput
+from django.core.exceptions import ValidationError
 
 #this class is SPECIFICALLY for mapping fields to custom user (ie email user and pass)
 class AddPatientCustomUser (UserCreationForm):
@@ -34,7 +34,7 @@ class AddPatientCustomUser (UserCreationForm):
             
             #if the email is valid thus far, return it
         return email
-            
+    
     def save(self, commit = True):
         user = super().save(commit = False)
         user.user_type = 'patient'
@@ -61,10 +61,90 @@ class AddPatient(forms.ModelForm):
             "last"
         ]
 
+class EditPatientCustomUser (forms.ModelForm):
 
+    #specify email field
+    email = forms.EmailField(required=True)
+    
+    class Meta:
+        
+        #every time we make a submission in this field, it should change customuser model
+        model = CustomUser
+
+        #this is for specifying the order that we want the fields to appear
+        fields = [
+            "username",
+            "email",
+        ]
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        current = self.instance.email
+        #check if email already exists in the database
+        if email != current:
+            if CustomUser.objects.filter(email = email).exists():
+                # if i does, raise an error to be displayed to the user
+                raise forms.ValidationError('This email is already registered. Please use a different one.')
+
+            
+            #if the email is valid thus far, return it
+        return email
+    
+    def save(self, commit = True):
+        user = super().save(commit = False)
+        user.user_type = 'patient'
+        if commit:
+            user.save()
+        return user
+        
 
 class EditPatientForm(forms.ModelForm):
     class Meta:
-        mode = Patient
 
-        fields = ['first', 'last', 'medications_times']
+        model = Patient
+
+        fields = [
+            'first', 'last', 'medications_times'
+            ]
+        help_texts = {
+            'first': 'Enter the patient\'s first name.',
+            'last': 'Enter the patient\'s last name.',
+            'medications_times': 'Medications and times should be entered in JSON format',
+        }
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = None
+
+    new_password1 = forms.CharField(
+        label="New Password",
+        widget=forms.PasswordInput,
+        min_length=8,
+        help_text="Password must be at least 8 characters long."
+    )
+    new_password2 = forms.CharField(
+        label="Confirm New Password",
+        widget=forms.PasswordInput,
+        min_length=8,
+        help_text="Enter the same password as above."
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'new_password1', 
+            'new_password2',
+        ]
+
+    def clean_new_password2(self):
+        password1 = self.cleaned_data.get('new_password1')
+        password2 = self.cleaned_data.get('new_password2')
+
+        if password1 != password2:
+            raise ValidationError("The two password fields must match.")
+        
+        return password2
+
+    def save(self, user):
+        new_password = self.cleaned_data.get('new_password1')
+        user.set_password(new_password)
+        user.save()

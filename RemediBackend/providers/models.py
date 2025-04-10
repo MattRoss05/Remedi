@@ -13,8 +13,8 @@ class Patient(models.Model):
     #maps our patient to a custom user model
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     #first and last name fields; this is what we use to search a patient
-    first = models.CharField(max_length=50, default= 'John')
-    last = models.CharField(max_length=50, default= 'Doe')
+    first = models.CharField(max_length=50)
+    last = models.CharField(max_length=50)
 
     medications_times = models.JSONField(default=dict)
     #the provider who intoduced this patient is saved here
