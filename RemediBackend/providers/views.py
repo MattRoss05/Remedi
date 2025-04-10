@@ -1,6 +1,7 @@
+
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
-from .forms import AddPatientCustomUser, AddPatient
+from .forms import AddPatientCustomUser, AddPatient, EditPatientForm, EditPatientCustomUser, CustomPasswordChangeForm
 from .models import Provider, Patient
 from django.db.models import Q
 
@@ -58,18 +59,58 @@ def search_patient(request):
 
 
 def delete_patient(request, patient_id):
-    if not request.user.is_authenticated and request.user.user_type == 'patient':
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
        return redirect('welcome')
     patient  = get_object_or_404(Patient, id = patient_id)
 
     if request.method == "POST":
-        patient.delete()
+        patient.user.delete()
         return redirect('search_patients')
     
     else:
         return render(request, 'providers/confirmdelete.html', {'patient': patient})
 
 
+def edit_patient(request, patient_id):
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
+       return redirect('welcome')
+    
+    patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
 
 
+    if request.method == "POST":
+        editUserForm = EditPatientCustomUser(request.POST, instance = patient.user)
+        editForm = EditPatientForm(request.POST, instance = patient)
+        print(editForm.errors)
+        print(editUserForm.errors)
+        if editForm.is_valid() and editUserForm.is_valid():
+            editForm.save()
+            editUserForm.save()
+            return redirect('search_patients')
+        else:
+
+            return render(request, 'providers/editpatient.html', {'editForm': editForm, 'patient': patient, 'editUserForm': editUserForm})
+        
+    else:
+        editForm = EditPatientForm(instance = patient)
+        editUserForm = EditPatientCustomUser(instance = patient.user)
+        return render(request, 'providers/editpatient.html', {'editForm': editForm, 'patient': patient, 'editUserForm': editUserForm})
+
+
+
+def change_password(request, patient_id):
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
+       return redirect('welcome')
+    
+    patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+
+
+    if request.method == "POST":
+        changepasswordform = CustomPasswordChangeForm(user=patient.user,data= request.POST)
+        if changepasswordform.is_valid():
+            changepasswordform.save(user = patient.user)
+            return redirect('edit_patient', patient_id = patient.id)
+    else:
+        changepasswordform = CustomPasswordChangeForm(user = patient.user)
+        return render(request, 'providers/changepassword.html', {'patient':patient, 'changepasswordform':changepasswordform})
 
