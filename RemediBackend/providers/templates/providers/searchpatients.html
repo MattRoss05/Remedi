@@ -1,0 +1,65 @@
+{% load crispy_forms_tags %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>HTML 5 Boilerplate</title>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            background-color: #333333;
+            color: #D3d3d3;
+
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #D3d3d3;
+            background-color: #522e92;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #3e236e;
+        }
+        a:not(.button):link{
+            color: aqua;
+            background-color: transparent;
+            text-decoration: none;
+        }
+        a:not(.button):visited {
+            color: aqua;
+        }
+        a:not(.button):hover {
+            color: aqua;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>Search Patients</h1>
+    <form method="get">
+        <input type="text" name="q" placeholder="Search by name" value="{{ query }}">
+        <button type="submit"  class = "button">Search</button>
+        <a href="{% url 'provider_dashboard'%}" class = "button">back</a>
+    </form>
+    
+    <ul>
+        {% for patient in patients %}
+            <li>
+                {{ patient.first }} {{ patient.last }} ({{ patient.user.email }})
+                | <a href="{% url 'welcome'%}">Edit</a>
+                | <a href="{% url 'delete_patient' patient.id%}">Delete</a>
+            </li>
+        {% empty %}
+            <li>No patients found.</li>
+        {% endfor %}
+    </ul>
+  </body>
+</html>
