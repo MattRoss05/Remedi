@@ -60,3 +60,11 @@ class AddPatient(forms.ModelForm):
             "first",
             "last"
         ]
+
+
+
+class EditPatientForm(forms.ModelForm):
+    class Meta:
+        mode = Patient
+
+        fields = ['first', 'last', 'medications_times']
