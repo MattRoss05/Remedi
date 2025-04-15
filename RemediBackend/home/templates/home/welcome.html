@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #333333;
+            color: #D3d3d3;
+
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #D3d3d3;
+            background-color: #522e92;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #3e236e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Remedi!!</h1>
+    <p>Select an option below:</p>
+
+    <div class="button-container">
+        <a href="{% url 'register' %}" class="button">Register a Practice</a>
+        <a href="{% url 'login' %}" class="button">Login</a>
+    </div>
+</body>
+</html>

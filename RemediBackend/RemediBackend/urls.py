@@ -15,10 +15,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from users import views as userviews
 
 urlpatterns = [
+    #add admin site to available urls
     path('admin/', admin.site.urls),
-    path('', include("main.urls")),
+    #add the urls for the landing page
+    path('', include('home.urls')),
+    #add urls for register and redirection
+    path('user/', include('users.urls')),
+    #include this so we can use django, built in login authentication
+    path('', include('django.contrib.auth.urls')),
+    #allows for us to access patient dashboard
+    path('patients/', include('patients.urls')),
+    #allows for us to access patient dashboard
+    path('providers/', include('providers.urls')),
+    #allows for use to logout, called in the provider dashboard
+    #html file
+    path('log-out/', auth_views.LogoutView.as_view(next_page = 'welcome'), name = 'logout'),
 ]
- 
