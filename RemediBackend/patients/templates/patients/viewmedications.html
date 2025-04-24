@@ -2,7 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Patient Dashboard</title>
+    <title>Medications</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -27,26 +27,8 @@
     </style>
   </head>
   <body>
-    <h1>Welcome to the Patient Dashboard!!</h1>
-    <p>Select an option below:</p>
-
-    <div class="view_medications_section">
-      <a href="{% url 'view_medications'%}">
-        <button class="button">View Medications</button>
-      </a>
-    </div>
-
-    <div class="log_medications_section">
-      <a href = "{% url 'log_medications'%}">
-        <button class="button">Log Medication</button>
-      </a>
-    </div>
-
-    <div id="content" , name="content">
-      <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="button">Logout</button>
-      </form>
-    </div>
+    
+    <h1>Medication list</h1>
+    
   </body>
 </html>
