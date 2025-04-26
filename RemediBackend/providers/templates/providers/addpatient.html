@@ -7,39 +7,36 @@
     <title>Add</title>
     <style>
       body {
-            font-family: Arial, sans-serif;
-            padding: 50px;
-            background-color: #333333;
-            color: #D3d3d3;
-
-        }
-        .button {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px 30px;
-            font-size: 18px;
-            color: #D3d3d3;
-            background-color: #522e92;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .button:hover {
-            background-color: #3e236e;
-        }
+        font-family: Arial, sans-serif;
+        padding: 50px;
+        background-color: #333333;
+        color: #d3d3d3;
+      }
+      .button {
+        display: inline-block;
+        margin: 10px;
+        padding: 15px 30px;
+        font-size: 18px;
+        color: #d3d3d3;
+        background-color: #522e92;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .button:hover {
+        background-color: #3e236e;
+      }
     </style>
   </head>
   <body>
     <h1>Add a Patient</h1>
     <div id="content" , name="content">
       <form method="POST" class="form-group">
-        {% csrf_token %} 
-        {{ patientForm|crispy }}
-        {{ userForm|crispy }}
+        {% csrf_token %} {{ patientForm|crispy }} {{ userForm|crispy }}
 
         <button type="submit" class="button">Register</button>
       </form>
-      <a href = "{% url 'provider_dashboard' %}" class = button>Cancel</a>
+      <a href="{% url 'provider_dashboard' %}" class="button">Cancel</a>
     </div>
   </body>
 </html>

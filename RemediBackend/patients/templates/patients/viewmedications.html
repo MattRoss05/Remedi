@@ -27,8 +27,17 @@
     </style>
   </head>
   <body>
-    
     <h1>Medication list</h1>
-    
+
+    <ul>
+      {% for med in meds %}
+      <li>
+        {{ med.med }} {{ med.day }} {{ med.hour }} {{ med.min }} {{ med.meridiem
+        }} | <a href="{% url 'log_medication' med.id%}">Log</a>
+      </li>
+      {% empty %}
+      <li>No medications found.</li>
+      {% endfor %}
+    </ul>
   </body>
 </html>

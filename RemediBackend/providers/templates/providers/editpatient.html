@@ -7,42 +7,48 @@
     <title>Edit Patient</title>
     <style>
       body {
-            font-family: Arial, sans-serif;
-            padding: 50px;
-            background-color: #333333;
-            color: #D3d3d3;
-
-        }
-        .button {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px 30px;
-            font-size: 18px;
-            color: #D3d3d3;
-            background-color: #522e92;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-        .button:hover {
-            background-color: #3e236e;
-        }
+        font-family: Arial, sans-serif;
+        padding: 50px;
+        background-color: #333333;
+        color: #d3d3d3;
+      }
+      .button {
+        display: inline-block;
+        margin: 10px;
+        padding: 15px 30px;
+        font-size: 18px;
+        color: #d3d3d3;
+        background-color: #522e92;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .button:hover {
+        background-color: #3e236e;
+      }
     </style>
   </head>
   <body>
     <h1>Edit Patient</h1>
-    <div id="content1"  name="content1">
-        <h2>Current patient: {{patient.first}} {{patient.last}}, {{patient.user.email}}</h2>
+    <div id="content1" name="content1">
+      <h2>
+        Current patient: {{patient.first}} {{patient.last}},
+        {{patient.user.email}}
+      </h2>
     </div>
-    <div id="content2"  name="content2">
+    <div id="content2" name="content2">
       <form method="POST" class="form-group">
-        {% csrf_token %} 
-        {{editUserForm | crispy}}
-        <a href = "{% url 'change_password' patient.id %}" class = "button"> Need a password change?</a>
+        {% csrf_token %} {{editUserForm | crispy}}
+        <a href="{% url 'change_password' patient.id %}" class="button">
+          Need a password change?</a
+        >
+        <a href="{% url 'change_medications' patient.id%}" class="button"
+          >Edit Medications</a
+        >
         {{editForm |crispy }}
         <button type="submit" class="button">Submit</button>
       </form>
-      <a href = "{% url 'search_patients' %}" class = button>Cancel</a>
+      <a href="{% url 'search_patients' %}" class="button">Cancel</a>
     </div>
   </body>
 </html>
