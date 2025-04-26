@@ -106,13 +106,13 @@ class EditPatientForm(forms.ModelForm):
         model = Patient
 
         fields = [
-            'first', 'last', 'medications_times'
+            'first', 'last', #'medications_times'
             ]
         #`these are texts that will be displayed next to the associated form`
         help_texts = {
             'first': 'Enter the patient\'s first name.',
             'last': 'Enter the patient\'s last name.',
-            'medications_times': 'Medications and times should be entered in JSON format',
+            #medications_times': 'Medications and times should be entered in JSON format',
         }
 #form for the change password view
 class CustomPasswordChangeForm(PasswordChangeForm):

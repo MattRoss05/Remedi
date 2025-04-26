@@ -2,7 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log Medications</title>
+    <title>Edit Medications</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -27,8 +27,18 @@
     </style>
   </head>
   <body>
-    
-    <h1>Log your medications.</h1>
-    
+    <h1>Medication list</h1>
+    {{ patient.first }} {{ patient.last }} ({{ patient.user.email }})
+    <ul>
+      {% for med in prescriptions %}
+      <li>
+        {{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min }}{{med.meridiem}}
+        {{ med.meridiem }} |
+        <a href="{% url 'edit_medication' med_id%}">Edit</a>
+      </li>
+      {% empty %}
+      <li>No medications found.</li>
+      {% endfor %}
+    </ul>
   </body>
 </html>

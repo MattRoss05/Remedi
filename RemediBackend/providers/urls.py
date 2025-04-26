@@ -14,4 +14,7 @@ urlpatterns = [
     path('edit-patient/<int:patient_id>/edit', views.edit_patient, name = 'edit_patient' ),
     #url for the change password, include patient id in the url
     path('change-password/<int:patient_id>/change', views.change_password, name = 'change_password' ),
+    #url path for change medication, include patient id in url
+    path('change-medications/<int:patient_id>/change', views.change_medications, name = 'change_medications' ),
+
 ]
