@@ -46,8 +46,8 @@
     <ul>
       {% for med in prescriptions %}
       <li>
-        {{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min }}{{med.meridiem}}|
-        <a href="{% url 'edit_medication' patient.id med.id%}">Edit</a> | <a href="{% url 'delete_medication' patient.id med.id%}">Delete</a> 
+        {{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min|stringformat:"02d" }}{{med.meridiem}}
+        | <a href="{% url 'edit_medication' patient.id med.id%}">Edit</a> | <a href="{% url 'delete_medication' patient.id med.id%}">Delete</a> 
       </li>
       {% empty %}
       <li>No prescriptions found.</li>
