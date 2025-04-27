@@ -139,67 +139,91 @@ def change_password(request, patient_id):
         #otherwise provide blank forms with the user to be edited.
         changepasswordform = CustomPasswordChangeForm(user = patient.user)
         return render(request, 'providers/changepassword.html', {'patient':patient, 'changepasswordform':changepasswordform})
+    
+
 
 def change_medications(request, patient_id):
 #if the user is not authenitcated as a provider
     if not request.user.is_authenticated or request.user.user_type == 'patient':
        #redirect to welcome
        return redirect('welcome')
-    
+    #get the associated patient model and prescriptionlist of the patient
     patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider) 
     precriptions = Prescription.objects.filter(patient = patient)
-    
+    #render changemeds.html
     return render(request, 'providers/changemeds.html', {'patient': patient, 'prescriptions': precriptions})
 
 
 
 def add_medication(request, patient_id):
-     #upon hitting submit button for filled form
+     #if not autheticated as a provider
     if not request.user.is_authenticated or request.user.user_type == 'patient':
+        #redirect to welcome
         return redirect('welcome')
+    #get the associated patient
     patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+    #IF the form on the page has been submitted
     if request.method=="POST":
+        #get the assoicated patient
         patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+        #make an instance of the EditMedicationForm
         medicationForm = EditMedicationForm(request.POST)
+
+        #if the form is valid
         if medicationForm.is_valid():
-       
+            
+            #save the form but dont commit it to the database yet
             medication = medicationForm.save(commit=False)
-           
+
+            #get the associated patient
             patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
             
+            #put the associated patient in the form
             medication.patient = patient
-           
+
+            #commit the new model entry into the database
             medication.save()
             
+            #redirect to the change medications url
             return redirect('change_medications', patient_id = patient_id)
       
     else:
+        #present the empty form to the screen
         medicationForm = EditMedicationForm()
              
     return render(request, 'providers/addmedication.html', {'medForm': medicationForm, 'patient':patient})
 
 
+
 def edit_medication(request, patient_id, medication_id):
-  #upon hitting submit button for filled form
+  #if not autheticated as a provider
     if not request.user.is_authenticated or request.user.user_type == 'patient':
+        #redirect to welcome
         return redirect('welcome')
+    #get the associated patient and medication model instance
     patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
     medication = get_object_or_404(Prescription, id = medication_id, patient = patient)
+    #IF the form on the page has been submitted
     if request.method=="POST":
-        
+        #make a new EditMedication form, passing the instance to be changed
         medicationForm = EditMedicationForm(request.POST, instance= medication)
+        #if the firm is valid
         if medicationForm.is_valid():
-       
+            #submit it
             medication = medicationForm.save(commit=False)
            
             medication.save()
-            
+            #redirect to change medications
             return redirect('change_medications',patient_id = patient_id)
       
     else:
+        #display the form with the pre-exisitng valued to the user
         medicationForm = EditMedicationForm(instance = medication)
                 
     return render(request, 'providers/editmedication.html', {'medForm': medicationForm, 'patient': patient, 'medication': medication}) 
+
+
+
 def delete_medication(request, patient_id, medication_id):
     #if the user is not authenitcated as a provider
     if not request.user.is_authenticated or request.user.user_type == 'patient':
@@ -229,7 +253,9 @@ def view_reports(request, patient_id):
        #redirect to welcome
        return redirect('welcome')
 
+    #obtain the assoicated patient and their reports
     patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider) 
     reports = Report.objects.filter(patient=patient)
 
+    #render the html file
     return render(request, 'providers/reports_list.html', {'patient': patient, 'reports': reports})

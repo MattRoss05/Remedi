@@ -27,6 +27,7 @@ class Patient(models.Model):
         return self.user.email
     
 class Prescription(models.Model):
+    #Choices for Day
     DAY_CHOICES = [
         ("MONDAY", "MONDAY"),
         ("TUESDAY", "TUESDAY"),
@@ -36,7 +37,7 @@ class Prescription(models.Model):
         ("SATURDAY","SATURDAY"),
         ("SUNDAY","SUNDAY"),
     ]
-
+    #Choices for Hour
     HOUR_CHOICES = [
         (1, 1),
         (2, 2),
@@ -51,7 +52,7 @@ class Prescription(models.Model):
         (11,11),
         (12,12),
     ]
-
+    #Choices for min
     MIN_CHOICES = [
         (00, 00),
         (15, 15),
@@ -59,7 +60,7 @@ class Prescription(models.Model):
         (45, 45)
     ]
 
-
+    #Choices for Meridiem
     MERIDIEM_CHOICES = [
         ("AM", "AM"),
         ("PM", "PM")

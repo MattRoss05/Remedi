@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'patients',
     'providers.apps.ProvidersConfig',
-    'reminders',
-    'reports',
     'home',
     
 ]
