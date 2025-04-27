@@ -1,0 +1,59 @@
+{% load crispy_forms_tags %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Confirm Delete</title>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            background-color: #333333;
+            color: #D3d3d3;
+
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #D3d3d3;
+            background-color: #522e92;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #3e236e;
+        }
+        a:not(.button):link{
+            color: aqua;
+            background-color: transparent;
+            text-decoration: none;
+        }
+        a:not(.button):visited {
+            color: aqua;
+        }
+        a:not(.button):hover {
+            color: aqua;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>Are you sure you want to delete this Prescription?</h1>
+    <h2> Current patient: {{patient.first}} {{patient.last}},
+        {{patient.user.email}}</h2>
+
+        <h2>Medication: {{medication.med}}</h2>
+        <h2>Day: {{medication.day}}</h2>
+        <h2>Time: {{medication.hour}}:{{medication.min}} {{medication.meridiem}}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit"  class = "button">Yes, delete</button>
+    </form>
+    <a href="{% url 'change_medications' patient.id%}" class = "button">Cancel</a>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient, Provider, CustomUser #accessing patient and provider models
+from .models import Patient, Provider, CustomUser, Prescription #accessing patient and provider models
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -112,7 +112,19 @@ class EditPatientForm(forms.ModelForm):
         help_texts = {
             'first': 'Enter the patient\'s first name.',
             'last': 'Enter the patient\'s last name.',
-            #medications_times': 'Medications and times should be entered in JSON format',
+        }
+class EditMedicationForm(forms.ModelForm):
+    class Meta:
+        model = Prescription
+        fields = [
+            'med',
+            'day',
+            'hour',
+            'min',
+            'meridiem'
+        ]
+        labels = {
+            'med': 'Medication', 'meridiem':'Night or Day'
         }
 #form for the change password view
 class CustomPasswordChangeForm(PasswordChangeForm):
@@ -155,3 +167,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         new_password = self.cleaned_data.get('new_password1')
         user.set_password(new_password)
         user.save()
+
+    
+

@@ -28,51 +28,51 @@ class Patient(models.Model):
     
 class Prescription(models.Model):
     DAY_CHOICES = [
-        ("MONDAY", "Monday"),
-        ("TUESDAY", "Tuesday"),
-        ("WEDNESDAY","Wednesday"),
-        ("THURSDAY","Thursday"),
-        ("FRIDAY","Friday"),
-        ("SATURDAY","Saturday"),
-        ("SUNDAY","Sunday"),
+        ("MONDAY", "MONDAY"),
+        ("TUESDAY", "TUESDAY"),
+        ("WEDNESDAY","WEDNESDAY"),
+        ("THURSDAY","THURSDAY"),
+        ("FRIDAY","FRIDAY"),
+        ("SATURDAY","SATURDAY"),
+        ("SUNDAY","SUNDAY"),
     ]
 
     HOUR_CHOICES = [
-        ("one", 1),
-        ("two", 2),
-        ("three",3),
-        ("four",4),
-        ("five",5),
-        ("six",6),
-        ("seven",7),
-        ("eight",8),
-        ("nine",9),
-        ("ten",10),
-        ("eleven",11),
-        ("twelve",12)
+        (1, 1),
+        (2, 2),
+        (3,3),
+        (4,4),
+        (5,5),
+        (6,6),
+        (7,7),
+        (8,8),
+        (9,9),
+        (10,10),
+        (11,11),
+        (12,12),
     ]
 
     MIN_CHOICES = [
-        ("zero", 00),
-        ("fifteen", 15),
-        ("thirty", 30),
-        ("fortyfive", 45)
+        (00, 00),
+        (15, 15),
+        (30, 30),
+        (45, 45)
     ]
 
 
     MERIDIEM_CHOICES = [
-        ("AM", "am"),
-        ("PM", "pm")
+        ("AM", "AM"),
+        ("PM", "PM")
     ]
     
     #map our prescription to a patient model
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name = 'prescriptions')
     #med, day, and time params
     med = models.CharField(max_length=50)
-    day = models.CharField(max_length = 9, choices = DAY_CHOICES, default = "MONDAY")
-    hour = models.IntegerField(choices = HOUR_CHOICES, default = "one")
-    min = models.IntegerField(choices = MIN_CHOICES, default = "zero")
-    meridiem = models.CharField( max_length= 2, choices = MERIDIEM_CHOICES, default = "AM")
+    day = models.CharField(max_length = 9, choices = DAY_CHOICES)
+    hour = models.IntegerField(choices = HOUR_CHOICES)
+    min = models.IntegerField(choices = MIN_CHOICES)
+    meridiem = models.CharField( max_length= 2, choices = MERIDIEM_CHOICES)
     
 
     def __str__(self):

@@ -2,7 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Medications</title>
+    <title>Edit Prescriptions</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -24,20 +24,33 @@
       .button:hover {
         background-color: #3e236e;
       }
+      a:not(.button):link{
+            color: aqua;
+            background-color: transparent;
+            text-decoration: none;
+        }
+        a:not(.button):visited {
+            color: aqua;
+        }
+        a:not(.button):hover {
+            color: aqua;
+            background-color: transparent;
+            text-decoration: underline;
+        }
     </style>
   </head>
   <body>
-    <h1>Medication list</h1>
-    {{ patient.first }} {{ patient.last }} ({{ patient.user.email }})
+    <h1>Prescription List</h1> 
+    <h3>{{ patient.first }} {{ patient.last }} ({{ patient.user.email }})</h3>
+    <a href="{% url 'add_medication' patient.id%}" class = "button">Add Prescription</a>  <a href="{% url 'edit_patient' patient.id%}" class = "button">Cancel</a> 
     <ul>
       {% for med in prescriptions %}
       <li>
-        {{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min }}{{med.meridiem}}
-        {{ med.meridiem }} |
-        <a href="{% url 'edit_medication' med_id%}">Edit</a>
+        {{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min }}{{med.meridiem}}|
+        <a href="{% url 'edit_medication' patient.id med.id%}">Edit</a> | <a href="{% url 'delete_medication' patient.id med.id%}">Delete</a> 
       </li>
       {% empty %}
-      <li>No medications found.</li>
+      <li>No prescriptions found.</li>
       {% endfor %}
     </ul>
   </body>
