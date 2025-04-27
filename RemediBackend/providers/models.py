@@ -49,8 +49,7 @@ class Prescription(models.Model):
         ("nine",9),
         ("ten",10),
         ("eleven",11),
-        ("twelve",12),
-        
+        ("twelve",12)
     ]
 
     MIN_CHOICES = [
@@ -80,3 +79,12 @@ class Prescription(models.Model):
         return self.med
 
     
+class Report(models.Model):
+    #map to related prescription and patient
+    prescription = models.ForeignKey(Prescription, on_delete=models.DO_NOTHING, related_name='reports')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='reports')
+    #tells us when they took the medication
+    logged_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Report for {self.prescription.med} on {self.logged_time}"

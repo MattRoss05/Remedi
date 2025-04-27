@@ -2,7 +2,7 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
 from .forms import AddPatientCustomUser, AddPatient, EditPatientForm, EditPatientCustomUser, CustomPasswordChangeForm
-from .models import Provider, Patient, Prescription
+from .models import Provider, Patient, Prescription, Report
 from django.db.models import Q
 
 # Create your views here.
@@ -151,3 +151,14 @@ def change_medications(request, patient_id):
     
     return render(request, 'providers/changemeds.html', {'patient': patient, 'prescriptions': precriptions})
     
+def view_reports(request, patient_id):
+
+    #if the user is not authenitcated as a provider
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
+       #redirect to welcome
+       return redirect('welcome')
+
+    patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider) 
+    reports = Report.objects.filter(patient=patient)
+
+    return render(request, 'providers/reports_list.html', {'patient': patient, 'reports': reports})

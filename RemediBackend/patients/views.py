@@ -22,15 +22,6 @@ def view_medications(request):
     return render(request, 'patients/viewmedications.html', {'meds': meds})
     
 
-#remove
-def log_medications(request):
-    if request.user.is_authenticated:
-        #render the log medication view if logged in as patient
-        return render(request, 'patients/logmedications.html')
-    else:
-        return redirect('welcome')
-    
-
 
 
 
