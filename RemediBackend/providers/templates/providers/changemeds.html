@@ -42,7 +42,7 @@
   <body>
     <h1>Prescription List</h1> 
     <h3>{{ patient.first }} {{ patient.last }} ({{ patient.user.email }})</h3>
-    <a href="{% url 'add_medication' patient.id%}" class = "button">Add Prescription</a>  <a href="{% url 'edit_patient' patient.id%}" class = "button">Cancel</a> 
+    <a href="{% url 'add_medication' patient.id%}" class = "button">Add Prescription</a>  <a href="{% url 'edit_patient' patient.id%}" class = "button">Back</a> 
     <ul>
       {% for med in prescriptions %}
       <li>
