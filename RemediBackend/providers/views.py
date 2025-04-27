@@ -1,13 +1,13 @@
 
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
-from .forms import AddPatientCustomUser, AddPatient, EditPatientForm, EditPatientCustomUser, CustomPasswordChangeForm
+from .forms import AddPatientCustomUser, AddPatient, EditPatientForm, EditPatientCustomUser, CustomPasswordChangeForm, EditMedicationForm
 from .models import Provider, Patient, Prescription
 from django.db.models import Q
 
 # Create your views here.
 def provider_dashboard(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated or request.user.user_type == 'patient':
         #render the provider dashboard, can only be accessed if logged in
         return render(request, 'providers/providerdashboard.html')
     else:
@@ -15,7 +15,7 @@ def provider_dashboard(request):
     
 def add_patient(request):
     #upon hitting submit button for filled form
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
         return redirect('welcome')
     
     if request.method=="POST":
@@ -150,4 +150,75 @@ def change_medications(request, patient_id):
     precriptions = Prescription.objects.filter(patient = patient)
     
     return render(request, 'providers/changemeds.html', {'patient': patient, 'prescriptions': precriptions})
+
+
+
+def add_medication(request, patient_id):
+     #upon hitting submit button for filled form
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
+        return redirect('welcome')
+    patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+    if request.method=="POST":
+        patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+        medicationForm = EditMedicationForm(request.POST)
+        if medicationForm.is_valid():
+       
+            medication = medicationForm.save(commit=False)
+           
+            patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+            
+            medication.patient = patient
+           
+            medication.save()
+            
+            return redirect('change_medications', patient_id = patient_id)
+      
+    else:
+        medicationForm = EditMedicationForm()
+             
+    return render(request, 'providers/addmedication.html', {'medForm': medicationForm, 'patient':patient})
+
+
+def edit_medication(request, patient_id, medication_id):
+  #upon hitting submit button for filled form
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
+        return redirect('welcome')
+    patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+    medication = get_object_or_404(Prescription, id = medication_id, patient = patient)
+    if request.method=="POST":
+        
+        medicationForm = EditMedicationForm(request.POST, instance= medication)
+        if medicationForm.is_valid():
+       
+            medication = medicationForm.save(commit=False)
+           
+            medication.save()
+            
+            return redirect('change_medications',patient_id = patient_id)
+      
+    else:
+        medicationForm = EditMedicationForm(instance = medication)
+                
+    return render(request, 'providers/editmedication.html', {'medForm': medicationForm, 'patient': patient, 'medication': medication}) 
+def delete_medication(request, patient_id, medication_id):
+    #if the user is not authenitcated as a provider
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
+       #redirect to the welcome page.
+       return redirect('welcome')
+    #obtain the patient to delete based off of id and the proider authenticated
+    patient  = get_object_or_404(Patient, id = patient_id, provider = request.user.provider)
+    med = get_object_or_404(Prescription, id = medication_id, patient = patient)
+
+    #if the form has been submitted
+    if request.method == "POST":
+        #delete the user associated with the patient, the patient model associated with the user will be by CASCADE
+        med.delete()
+        #redirect to search patients
+        return redirect('change_medications', patient_id = patient_id)
+    
+    else:
+        #if the form has not been submitted, render the html file and pass the patient they can be displayed on the screen
+        return render(request, 'providers/confirmdeletemed.html', {'patient': patient, 'medication':med}) 
+    
+    
     
