@@ -43,7 +43,7 @@
   </head>
   <body>
     <h1>Are you sure you want to log this medication?</h1>
-    <h3>{{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min }} {{ med.meridiem}}</h3>
+    <h3>{{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min|stringformat:"02d" }} {{ med.meridiem}}</h3>
     <form method="POST">
       {% csrf_token %}
       <button type="submit" class="button">Yes, log it</button>
