@@ -1,8 +1,8 @@
 
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
+from .models import Provider, Patient, Prescription, Report
 from .forms import AddPatientCustomUser, AddPatient, EditPatientForm, EditPatientCustomUser, CustomPasswordChangeForm, EditMedicationForm
-from .models import Provider, Patient, Prescription
 from django.db.models import Q
 
 # Create your views here.
@@ -222,3 +222,14 @@ def delete_medication(request, patient_id, medication_id):
     
     
     
+def view_reports(request, patient_id):
+
+    #if the user is not authenitcated as a provider
+    if not request.user.is_authenticated or request.user.user_type == 'patient':
+       #redirect to welcome
+       return redirect('welcome')
+
+    patient = get_object_or_404(Patient, id = patient_id, provider = request.user.provider) 
+    reports = Report.objects.filter(patient=patient)
+
+    return render(request, 'providers/reports_list.html', {'patient': patient, 'reports': reports})

@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
@@ -142,3 +142,11 @@ LOGIN_REDIRECT_URL = "/user/redirect/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#email stuff
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'stmp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'remedireminders@gmail.com'
+EMAIL_HOST_PASSWORD = 'kathAz-qexvof-5cabbe'
+DEFAULT_FROM_EMAIL = 'remedireminders@gmail.com'
