@@ -31,7 +31,7 @@
     <ul>
       {% for med in meds %}
       <li>
-        {{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min }} {{ med.meridiem }} | <a href = "{% url 'log_medication' med.id %}" class = "button">Log</a>
+        {{ med.med }} {{ med.day }} {{ med.hour }}:{{ med.min|stringformat:"02d" }} {{ med.meridiem }} <a href = "{% url 'log_medication' med.id %}" class = "button">Log</a>
       </li>
       {% empty %}
       <li>No medications found.</li>

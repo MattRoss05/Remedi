@@ -49,7 +49,7 @@
 
         <h2>Medication: {{medication.med}}</h2>
         <h2>Day: {{medication.day}}</h2>
-        <h2>Time: {{medication.hour}}:{{medication.min}} {{medication.meridiem}}</h2>
+        <h2>Time: {{medication.hour}}:{{medication.min|stringformat:"02d"}} {{medication.meridiem}}</h2>
     <form method="POST">
         {% csrf_token %}
         <button type="submit"  class = "button">Yes, delete</button>

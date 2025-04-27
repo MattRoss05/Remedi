@@ -36,14 +36,14 @@
 
         <h3>Prescription: {{medication.med}}</h3>
         <h3>Day: {{medication.day}}</h3>
-        <h3>Time: {{medication.hour}}:{{medication.min}} {{medication.meridiem}}</h3>
+        <h3>Time: {{medication.hour}}:{{medication.min|stringformat:"02d"}} {{medication.meridiem}}</h3>
     </div>
     <div id="content2" name="content2">
       <form method="POST" class="form-group">
         {% csrf_token %} {{medForm | crispy}}
         <button type="submit" class="button">Submit</button>
       </form>
-      <a href="{% url 'change_medications' patient.id %}" class="button">Cancel</a>
+      <a href="{% url 'change_medications' patient.id %}" class="button">Back</a>
     </div>
   </body>
 </html>
