@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit Patient</title>
+    <title>Add</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -29,26 +29,14 @@
     </style>
   </head>
   <body>
-    <h1>Edit Patient</h1>
-    <div id="content1" name="content1">
-      <h2>
-        Current patient: {{patient.first}} {{patient.last}},
-        {{patient.user.email}}
-      </h2>
-    </div>
-    <div id="content2" name="content2">
+    <h1>Add a Medication</h1>
+    <div id="content" , name="content">
+        Current patient: {{patient.first}} {{patient.last}} ({{patient.user.email}})
       <form method="POST" class="form-group">
-        {% csrf_token %} {{editUserForm | crispy}}
-        <a href="{% url 'change_password' patient.id %}" class="button">
-          Need a password change?</a
-        >
-        <a href="{% url 'change_medications' patient.id%}" class="button"
-          >Edit Prescriptions</a
-        >
-        {{editForm |crispy }}
-        <button type="submit" class="button">Submit</button>
+        {% csrf_token %} {{ medForm |crispy }}
+        <button type="submit" class="button">Add</button>
       </form>
-      <a href="{% url 'search_patients' %}" class="button">Cancel</a>
+      <a href="{% url 'change_medications' patient.id%}" class="button">Cancel</a>
     </div>
   </body>
 </html>
