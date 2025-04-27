@@ -67,7 +67,7 @@ class Prescription(models.Model):
     ]
     
     #map our prescription to a patient model
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name = 'prescriptions')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name = 'prescriptions')
     #med, day, and time params
     med = models.CharField(max_length=50)
     day = models.CharField(max_length = 9, choices = DAY_CHOICES)
