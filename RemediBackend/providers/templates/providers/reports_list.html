@@ -32,7 +32,7 @@
     <ul>
       {% for report in reports %}
       <li>
-        Expected: {{report.prescription.med }} {{ report.prescription.day }} {{ report.prescription.hour }}:{{ report.prescription.min }} {{ report.prescription.meridiem }} | Actual: {{report.prescription.med}} {{report.logged_time|date:"l F j Y g:i A" }} 
+        Expected: {{report.med }} {{ report.day }} {{ report.hour }}:{{ report.min }} {{ report.meridiem }} | Actual: {{report.med}} {{report.logged_time|date:"l F j Y g:i A" }} 
         <h3></h3>
       </li>
       {% empty %}

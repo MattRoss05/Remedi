@@ -82,10 +82,19 @@ class Prescription(models.Model):
     
 class Report(models.Model):
     #map to related prescription and patient
-    prescription = models.OneToOneField(Prescription, on_delete=models.DO_NOTHING, related_name='reports')
+    prescription = models.OneToOneField(Prescription, on_delete=models.SET_NULL, related_name='reports', null = True, blank = True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='reports')
     #tells us when they took the medication
+
+    #snapshot of prescription
     logged_time = models.DateTimeField(auto_now_add=True)
 
+    med = models.CharField(max_length=50)
+    day = models.CharField(max_length=9)
+    hour = models.IntegerField(default = 12)
+    min = models.IntegerField(default = 15)
+    meridiem = models.CharField(max_length=2)
+
+
     def __str__(self):
-        return f"Report for {self.prescription.med} on {self.logged_time}"
+        return f"Report for {self.med} on {self.logged_time}"

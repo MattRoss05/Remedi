@@ -40,6 +40,13 @@ def log_confirmation(request, medication_id):
 
             report.prescription = med
             report.patient = request.user.patient
+
+             # copy prescription data into report
+            report.med = med.med
+            report.day = med.day
+            report.hour = med.hour
+            report.min = med.min
+            report.meridiem = med.meridiem
             report.save()
 
             #redirect to view medications
