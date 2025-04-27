@@ -82,7 +82,7 @@ class Prescription(models.Model):
     
 class Report(models.Model):
     #map to related prescription and patient
-    prescription = models.OneToOneField(Prescription, on_delete=models.SET_NULL, related_name='reports', null = True, blank = True)
+    prescription = models.ForeignKey(Prescription, on_delete=models.SET_NULL, related_name='reports', null = True, blank = True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='reports')
     #tells us when they took the medication
 
