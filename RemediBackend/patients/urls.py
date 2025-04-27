@@ -7,5 +7,5 @@ urlpatterns = [
     #url path for medication view
     path('view-medications', views.view_medications, name = 'view_medications'),
     #url path for medication log
-    path('log-medications', views.log_medications, name = 'log_medications'),
+    path('log-medication/<int:medication_id>/log', views.log_confirmation, name = 'log_medication'),
 ]

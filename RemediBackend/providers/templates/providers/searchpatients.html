@@ -56,6 +56,7 @@
                 {{ patient.first }} {{ patient.last }} ({{ patient.user.email }})
                 | <a href="{% url 'edit_patient' patient.id%}">Edit</a>
                 | <a href="{% url 'delete_patient' patient.id%}">Delete</a>
+                | <a href="{% url 'view_report' patient.id%}">Report</a>
             </li>
         {% empty %}
             <li>No patients found.</li>
