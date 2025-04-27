@@ -27,20 +27,17 @@
     </style>
   </head>
   <body>
-    <h1>Welcome to the Report Dashboard!!</h1>
-    <p></p>
-
-    <div class="view_medications_section">
-      <a href="{% url 'view_medications'%}">
-        <button class="button">View Medications</button>
-      </a>
-    </div>
-
-    <div id="content" , name="content">
-      <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="button">Logout</button>
-      </form>
-    </div>
+    <h1>Patient: {{ patient.first }} {{ patient.last }}, {{ patient.user.email }}</h1>
+    <h3>Reports</h3>
+    <ul>
+      {% for report in reports %}
+      <li>
+        Expected: {{report.prescription.med }} {{ report.prescription.day }} {{ report.prescription.hour }}:{{ report.prescription.min }} {{ report.prescription.meridiem }} | Actual: {{report.prescription.med}} {{report.logged_time|date:"l F j Y g:i A" }} 
+        <h3></h3>
+      </li>
+      {% empty %}
+      <li>No medications found.</li>
+      {% endfor %}
+    <a href = "{%url 'search_patients'%}" class = "button">Back</a>
   </body>
 </html>

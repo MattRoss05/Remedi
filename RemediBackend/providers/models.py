@@ -27,6 +27,7 @@ class Patient(models.Model):
         return self.user.email
     
 class Prescription(models.Model):
+    #Choices for Day
     DAY_CHOICES = [
         ("MONDAY", "MONDAY"),
         ("TUESDAY", "TUESDAY"),
@@ -36,7 +37,7 @@ class Prescription(models.Model):
         ("SATURDAY","SATURDAY"),
         ("SUNDAY","SUNDAY"),
     ]
-
+    #Choices for Hour
     HOUR_CHOICES = [
         (1, 1),
         (2, 2),
@@ -51,7 +52,7 @@ class Prescription(models.Model):
         (11,11),
         (12,12),
     ]
-
+    #Choices for min
     MIN_CHOICES = [
         (00, 00),
         (15, 15),
@@ -59,14 +60,14 @@ class Prescription(models.Model):
         (45, 45)
     ]
 
-
+    #Choices for Meridiem
     MERIDIEM_CHOICES = [
         ("AM", "AM"),
         ("PM", "PM")
     ]
     
     #map our prescription to a patient model
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name = 'prescriptions')
+    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, related_name = 'prescriptions')
     #med, day, and time params
     med = models.CharField(max_length=50)
     day = models.CharField(max_length = 9, choices = DAY_CHOICES)
@@ -81,7 +82,7 @@ class Prescription(models.Model):
     
 class Report(models.Model):
     #map to related prescription and patient
-    prescription = models.ForeignKey(Prescription, on_delete=models.DO_NOTHING, related_name='reports')
+    prescription = models.OneToOneField(Prescription, on_delete=models.DO_NOTHING, related_name='reports')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='reports')
     #tells us when they took the medication
     logged_time = models.DateTimeField(auto_now_add=True)

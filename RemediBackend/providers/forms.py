@@ -114,6 +114,7 @@ class EditPatientForm(forms.ModelForm):
             'last': 'Enter the patient\'s last name.',
         }
 class EditMedicationForm(forms.ModelForm):
+    #basic form for editing the medications basee off of choice fields
     class Meta:
         model = Prescription
         fields = [
