@@ -3,7 +3,7 @@ name: Email Reminder
 #run every 15 mins
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/1 * * * *"
 
 jobs:
   send-reminders:
@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Python
-        uses: actions/checkout@v2
+        uses: actions/setup-python@v2
         with:
           python-version: "3.9.6"
 
@@ -28,5 +28,6 @@ jobs:
         env:
           EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
           EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          DEFAULT_FROM_EMAIL: ${{ secrets.DEFAULT_FROM_EMAIL }}
         run: |
           python RemediBackend/manage.py emailer
