@@ -1,0 +1,27 @@
+name: Email Reminder
+
+#run every 15 mins
+on:
+  schedule:
+    - cron: "*15/ * * * *"
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+
+    #github action
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/checkout@v2
+        with:
+          python-version: "3.9.6"
+
+      - name: Install dependencies
+        env:
+          EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+        run: |
+          python RemediBackend/manage.py emailer
