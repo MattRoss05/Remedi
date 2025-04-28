@@ -20,13 +20,30 @@ class Command(BaseCommand):
         #round minute to the nearest 15 minute mark (in case command runs a lil late)
         current_min = (current_min // 15) * 15
 
-        #we only want to send emails to users who are due for taking a prescription
-        #to do this, we compare the time of each prescription to the current time (now)
-        due = Prescription.objects.filter (
-            day = current_day,
-            hour = current_hour,
-            min = current_min
+        #currently, Prescription.hour is in 12 hour time.
+        #first, we just want prescriptions that match the other two fields (day and min)
+        prescriptions_today = Prescription.objects.filter(
+        day__iexact=current_day,
+        min=current_min
         )
+
+        #create a list of all due medications (defaults as empty)
+        due = []
+
+        #now we want to take all those prescriptions and convert to 24 hour time before comparing
+        for prescription in prescriptions_today:
+            hour = prescription.hour
+
+            if prescription.meridiem == 'PM' and hour != 12:
+                hour = hour + 12
+
+            if prescription.meridiem == 'AM' and hour == 12:
+                hour = 0
+
+            #append if prescription is due
+            if hour == current_hour:
+                due.append(prescription)
+
 
         #now we send an email to each patient for each due prescription
         for prescription in due:
@@ -36,11 +53,11 @@ class Command(BaseCommand):
             send_mail(
                 subject='Medication Reminder',
                 message=f"Hi {patient.first}, it's {prescription.hour:02}:{prescription.min:02}, time to take {prescription.med}!",
-                from_email='camdenwalker0622@gmail.com',
+                from_email='remedireminders@gmail.com',
                 recipient_list=[user_email],
                 fail_silently=False,
             )
 
-        self.stdout.write(self.style.SUCCESS(f'Sent {due.count()} medication reminders at {current_hour:02}:{current_min:02} on {current_day}'))
+        self.stdout.write(self.style.SUCCESS(f'Sent {len(due)} medication reminders at {current_hour:02}:{current_min:02} on {current_day}'))
 
         
