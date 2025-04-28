@@ -3,7 +3,7 @@ name: Email Reminder
 #run every 15 mins
 on:
   schedule:
-    - cron: "*15/ * * * *"
+    - cron: "*/15 * * * *"
 
 jobs:
   send-reminders:
