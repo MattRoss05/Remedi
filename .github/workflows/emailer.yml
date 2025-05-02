@@ -1,9 +1,9 @@
 name: Email Reminder
 
-#run every 15 mins
+#run every 5 mins
 on:
   schedule:
-    - cron: "*/1 * * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   send-reminders:
@@ -12,12 +12,12 @@ jobs:
     #github action
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: "3.9.6"
+          python-version: "3.9"
 
       - name: Install dependencies
         run: |
